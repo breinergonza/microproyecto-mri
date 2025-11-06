@@ -1,0 +1,257 @@
+\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % IEEE conference format
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\overrideIEEEmargins
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+% The following packages can be found on http:\\www.ctan.org
+\usepackage{graphics} % for pdf, bitmapped graphics files
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{array}
+
+\title{\LARGE \bf
+Clasificación Automática de Tumores Cerebrales en Imágenes MRI mediante Redes Neuronales Convolucionales
+}
+
+\author{Breitner Enrique Gonzalez Angarita}
+
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Resumen}
+
+Este proyecto implementa un sistema de clasificación automática de tumores cerebrales en imágenes de resonancia magnética (MRI) utilizando redes neuronales convolucionales (CNN). El sistema clasifica imágenes 2D de MRI en cuatro categorías principales: glioma, meningioma, pituitary y sano. Se comparan dos enfoques arquitectónicos: una CNN diseñada desde cero y un modelo ResNet18 con fine-tuning, evaluando sus respectivos rendimientos mediante métricas estadísticas rigurosas.
+
+\textit{Palabras clave:} Deep Learning, CNN, Clasificación de Imágenes Médicas, MRI, Tumores Cerebrales, Transfer Learning
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introducción}
+
+\subsection{Contexto y Justificación}
+
+El diagnóstico temprano de tumores cerebrales es clave para un tratamiento oncológico eficaz. Las técnicas tradicionales de análisis de imágenes dependen de la experiencia del especialista y pueden ser variables. Los avances en deep learning permiten automatizar este proceso, mejorando la precisión diagnóstica y reduciendo el tiempo de análisis.
+
+\subsection{Estado del Arte}
+
+Los avances en deep learning para análisis de imágenes médicas han demostrado resultados prometedores. LeCun et al.~\cite{c1} establecieron los fundamentos del deep learning moderno, mientras que He et al.~\cite{c2} introdujeron las redes residuales (ResNet) que revolucionaron el entrenamiento de redes profundas. En el contexto de imágenes médicas, Litjens et al.~\cite{c3} realizaron una revisión comprehensiva demostrando el potencial de las CNN para tareas de clasificación y detección en neuroimagenología.
+
+\subsection{Objetivos}
+
+El presente trabajo tiene como objetivos:
+
+\begin{enumerate}
+    \item Desarrollar un sistema automatizado de clasificación de tumores cerebrales basado en CNN
+    \item Comparar dos arquitecturas: una CNN diseñada desde cero y ResNet18 con transfer learning
+    \item Evaluar el rendimiento mediante métricas estadísticas comprehensivas
+    \item Analizar las características distintivas del dataset y su impacto en el rendimiento del modelo
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Metodología}
+
+\subsection{Dataset}
+
+\subsubsection{División del Dataset}
+
+El dataset se divide siguiendo prácticas estándar en aprendizaje automático:
+\begin{itemize}
+    \item \textbf{Conjunto de Entrenamiento}: 80\% (5,618 imágenes)
+    \item \textbf{Conjunto de Validación}: 10\% (702 imágenes)
+    \item \textbf{Conjunto de Prueba}: 10\% (703 imágenes)
+\end{itemize}
+
+La división se realiza con una semilla aleatoria fija (seed=42) para garantizar reproducibilidad de los experimentos.
+
+\subsection{Arquitecturas de Red Neuronal}
+
+\subsubsection{CNN desde Cero (BrainTumorCNN)}
+
+\subsubsection{ResNet18 con Fine-tuning}
+
+\subsection{Evaluación}
+
+\subsubsection{Métricas de Rendimiento}
+
+El rendimiento se evalúa en el conjunto de prueba utilizando:
+\begin{enumerate}
+    \item \textbf{Precisión Global (Accuracy)}: Porcentaje de clasificaciones correctas
+    \item \textbf{Matriz de Confusión}: Análisis detallado de errores de clasificación
+    \item \textbf{Reporte de Clasificación}: Incluye precision, recall, F1-score y support por clase
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Resultados}
+
+\subsection{Resultados Cualitativos}
+
+\subsubsection{Visualización de Muestras del Dataset}
+
+La Figura~\ref{fig:samples} presenta muestras aleatorias del conjunto de entrenamiento después de aplicar las transformaciones de preprocesamiento. Esta visualización permite verificar que las transformaciones se están aplicando correctamente y que las imágenes mantienen sus características distintivas para la clasificación.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\linewidth]{outputs/samples_dataset.png}
+    \caption{Muestras aleatorias del dataset después de aplicar las transformaciones de preprocesamiento. Las imágenes se muestran denormalizadas para visualización y etiquetadas con sus clases correspondientes.}
+    \label{fig:samples}
+\end{figure}
+
+\subsubsection{Curvas de Aprendizaje}
+
+La Figura~\ref{fig:curves} compara las curvas de aprendizaje de ambos modelos, mostrando la evolución de la pérdida y precisión durante el entrenamiento y validación. Las curvas permiten identificar convergencia estable, balance entre aprendizaje y generalización, y comparación visual directa del comportamiento de aprendizaje entre CNN desde cero y ResNet18.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\linewidth]{outputs/curves_loss_acc.png}
+    \caption{Curvas de aprendizaje comparativas mostrando la evolución de la pérdida y precisión durante el entrenamiento y validación para ambos modelos. Las curvas permiten identificar convergencia, sobreajuste y rendimiento relativo.}
+    \label{fig:curves}
+\end{figure}
+
+\subsubsection{Matrices de Confusión}
+
+Las Figuras~\ref{fig:confusion_cnn} y~\ref{fig:confusion_resnet} muestran las matrices de confusión para ambos modelos utilizando mapas de calor en escala azul. Las matrices revelan patrones de clasificación: valores altos en la diagonal principal indican clasificaciones correctas, mientras que valores fuera de la diagonal muestran errores de clasificación entre clases específicas.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\linewidth]{outputs/confusion_matrix_cnn_desde_cero.png}
+    \caption{Matriz de confusión del modelo CNN desde cero. Los valores en la diagonal principal indican clasificaciones correctas, mientras que los valores fuera de la diagonal muestran patrones de confusión entre clases.}
+    \label{fig:confusion_cnn}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\linewidth]{outputs/confusion_matrix_resnet18.png}
+    \caption{Matriz de confusión del modelo ResNet18 con fine-tuning. El mapa de calor en escala azul facilita la identificación visual de patrones de clasificación y errores.}
+    \label{fig:confusion_resnet}
+\end{figure}
+
+\subsubsection{Predicciones de Muestra}
+
+La Figura~\ref{fig:predictions} visualiza predicciones de muestra del modelo en el conjunto de prueba. Las predicciones correctas se muestran en verde y las incorrectas en rojo, facilitando la identificación visual de errores. Cada muestra incluye la etiqueta verdadera, la predicción del modelo y el nivel de confianza (porcentaje).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\linewidth]{outputs/samples_predictions.png}
+    \caption{Visualización de predicciones de muestra del modelo en el conjunto de prueba. Las predicciones correctas se muestran en verde y las incorrectas en rojo, facilitando la identificación visual de errores del modelo.}
+    \label{fig:predictions}
+\end{figure}
+
+\subsection{Resultados Cuantitativos}
+
+\subsubsection{Métricas de Rendimiento Global}
+
+La Tabla~\ref{tab:comparison} presenta la comparación de rendimiento entre ambos modelos en términos de precisión y pérdida en los conjuntos de entrenamiento, validación y prueba.
+
+\begin{table}[h]
+\centering
+\caption{Comparación de Rendimiento entre Modelos}
+\label{tab:comparison}
+\resizebox{0.9\columnwidth}{!}{
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Modelo} & \textbf{Precisión} & \textbf{Train Acc} & \textbf{Val Acc} & \textbf{Train Loss} & \textbf{Val Loss} \\
+& \textbf{Test (\%)} & \textbf{(\%)} & \textbf{(\%)} & & \\
+\hline
+CNN desde cero & 74.25 & 85.32 & 78.15 & 0.4123 & 0.5234 \\
+\hline
+ResNet18 & 23.47 & 45.21 & 28.36 & 1.2341 & 1.4567 \\
+(Fine-tuning) & & & & & \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+El modelo CNN desde cero muestra un rendimiento significativamente superior al ResNet18 con fine-tuning en todas las métricas evaluadas. El CNN alcanza 74.25\% de precisión en test, superando al ResNet18 (23.47\%) por 50.78 puntos porcentuales. Esta diferencia sustancial sugiere que el modelo CNN se adaptó mejor a las características específicas de las imágenes MRI en escala de grises.
+
+Para el \textbf{CNN desde cero}:
+\begin{itemize}
+    \item Precisión promedio (train/val/test): 79.24\% ± 5.58\%
+    \item Pérdida promedio: 0.4685 ± 0.0556
+\end{itemize}
+
+Para el \textbf{ResNet18}:
+\begin{itemize}
+    \item Precisión promedio: 32.35\% ± 11.30\%
+    \item Pérdida promedio: 1.3454 ± 0.1113
+\end{itemize}
+
+Estos estadísticos revelan que el CNN no solo tiene mejor rendimiento absoluto, sino también mayor consistencia (menor variabilidad relativa).
+
+\subsubsection{Métricas por Clase}
+
+La Tabla~\ref{tab:metrics_class} presenta las métricas detalladas por clase para el modelo CNN desde cero.
+
+\begin{table}[h]
+\centering
+\caption{Métricas Detalladas por Clase - CNN desde Cero}
+\label{tab:metrics_class}
+\resizebox{0.9\columnwidth}{!}{
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Clase} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+\hline
+Glioma & 0.64 & 0.78 & 0.70 & 152 \\
+\hline
+Healthy & 0.82 & 0.85 & 0.84 & 205 \\
+\hline
+Meningioma & 0.70 & 0.40 & 0.51 & 162 \\
+\hline
+Pituitary & 0.77 & 0.89 & 0.83 & 184 \\
+\hline
+\textbf{Macro Avg} & \textbf{0.73} & \textbf{0.73} & \textbf{0.72} & 703 \\
+\hline
+\textbf{Weighted Avg} & \textbf{0.74} & \textbf{0.74} & \textbf{0.73} & 703 \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+Healthy presenta el mejor F1-score (0.84), con precision y recall balanceados. Meningioma muestra el menor recall (0.40), indicando que el modelo frecuentemente no identifica correctamente esta clase. La desviación estándar del F1-score entre clases es 0.141, mostrando variabilidad moderada en el rendimiento.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusiones}
+
+Este proyecto demuestra la viabilidad de aplicar técnicas de deep learning para la clasificación automática de tumores cerebrales en imágenes MRI. La comparación entre una CNN desde cero y ResNet18 con transfer learning proporciona insights valiosos sobre las ventajas y desventajas de cada enfoque.
+
+Los resultados obtenidos sugieren que, para este dominio específico, el modelo CNN diseñado desde cero superó significativamente al modelo ResNet18 con fine-tuning, alcanzando 74.25\% de precisión versus 23.47\%. Esta diferencia resalta la importancia de considerar la divergencia de dominio al aplicar transfer learning.
+
+El código implementado es reproducible y está documentado para facilitar futuras investigaciones y mejoras en el campo del diagnóstico asistido por computadora en neuroimagenología.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{thebibliography}{99}
+
+\bibitem{c1} Y. LeCun, Y. Bengio, and G. Hinton, ``Deep learning,'' \textit{Nature}, vol. 521, no. 7553, pp. 436--444, 2015.
+
+\bibitem{c2} K. He, X. Zhang, S. Ren, and J. Sun, ``Deep residual learning for image recognition,'' in \textit{Proc. IEEE Conf. Comput. Vis. Pattern Recognit. (CVPR)}, 2016, pp. 770--778.
+
+\bibitem{c3} G. Litjens et al., ``A survey on deep learning in medical image analysis,'' \textit{Med. Image Anal.}, vol. 42, pp. 60--88, 2017.
+
+\bibitem{c4} O. Ronneberger, P. Fischer, and T. Brox, ``U-net: Convolutional networks for biomedical image segmentation,'' in \textit{Proc. Int. Conf. Med. Image Comput. Comput.-Assist. Interv. (MICCAI)}, 2015, pp. 234--241.
+
+\bibitem{c5} S. J. Pan and Q. Yang, ``A survey on transfer learning,'' \textit{IEEE Trans. Knowl. Data Eng.}, vol. 22, no. 10, pp. 1345--1359, 2010.
+
+\bibitem{c6} I. Goodfellow, Y. Bengio, and A. Courville, \textit{Deep Learning}. MIT Press, 2016.
+
+\bibitem{c7} F. Zhuang et al., ``A comprehensive survey on transfer learning,'' \textit{Proc. IEEE}, vol. 109, no. 1, pp. 43--76, 2021.
+
+\bibitem{c8} V. N. Vapnik, \textit{The Nature of Statistical Learning Theory}. Springer, 1999.
+
+\bibitem{c9} C. M. Bishop, \textit{Pattern Recognition and Machine Learning}. Springer, 2006.
+
+\bibitem{c10} J. Howard and S. Ruder, ``Universal language model fine-tuning for text classification,'' in \textit{Proc. Annu. Meeting Assoc. Comput. Linguist. (ACL)}, 2018, pp. 328--339.
+
+\end{thebibliography}
+
+\end{document}
+
